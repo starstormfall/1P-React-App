@@ -44,7 +44,6 @@ export default class TotalPax extends React.Component {
 
         {this.props.paxList && this.props.paxList.length > 0 ? (
           <div>
-            <hr />
             <h3>List of Names Who Are Paying:</h3>
             {this.props.paxList.map((pax, index) => (
               <div key={index}>

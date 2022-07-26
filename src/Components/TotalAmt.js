@@ -1,8 +1,14 @@
 import React from "react";
-import AddItem from "./AddItem";
 import { Select, Box, TextField, InputLabel, MenuItem } from "@mui/material";
 
 export default class TotalAmt extends React.Component {
+  calcTotalPaid = () => {
+    return this.props.paidList.reduce(
+      (prev, curr) => prev + Number(curr.paidAmount),
+      0
+    );
+  };
+
   render() {
     return (
       <div>
@@ -46,7 +52,7 @@ export default class TotalAmt extends React.Component {
         <button onClick={this.props.handleAddPaidEntryClick}>
           Add Payment
         </button>
-        <hr />
+
         {this.props.paidList && this.props.paidList.length > 0 ? (
           <div>
             <h3>List of Payment Details</h3>
@@ -84,7 +90,7 @@ export default class TotalAmt extends React.Component {
                 </button>
               </div>
             ))}
-            <p>Total Amount: ${this.props.totalAmount}</p>
+            <p>Total Paid: ${this.calcTotalPaid().toFixed(2)}</p>
           </div>
         ) : null}
       </div>

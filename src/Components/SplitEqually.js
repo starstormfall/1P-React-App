@@ -1,6 +1,7 @@
 import React from "react";
 import TotalPax from "./TotalPax";
 import TotalAmt from "./TotalAmt";
+import { TallyResults } from "./TallyResults";
 
 export class SplitEqually extends React.Component {
   constructor(props) {
@@ -12,7 +13,6 @@ export class SplitEqually extends React.Component {
       payer: "",
       paidItem: "",
       paidAmount: "",
-      totalAmount: 0,
     };
   }
 
@@ -73,7 +73,6 @@ export class SplitEqually extends React.Component {
   };
 
   handleDelete = (event, index) => {
-    console.log(this.state.totalAmount);
     if (event.target.name === "delete-pax") {
       this.state.paxList.splice(index, 1);
 
@@ -86,25 +85,6 @@ export class SplitEqually extends React.Component {
       this.setState({
         paidList: this.state.paidList,
       });
-      this.calcTotalAmountPaid();
-    }
-  };
-
-  calcTotalAmountPaid = () => {
-    let currentTotalAmount = 0;
-
-    for (let index = 0; index < this.state.paidList.length; index++) {
-      currentTotalAmount += Number(this.state.paidList[index].paidAmount);
-    }
-
-    this.setState({
-      totalAmount: currentTotalAmount,
-    });
-  };
-
-  componentDidUpdate = (prevProps, prevState) => {
-    if (this.state.paidList !== prevState.paidList) {
-      this.calcTotalAmountPaid();
     }
   };
 
@@ -130,9 +110,13 @@ export class SplitEqually extends React.Component {
             paidList={this.state.paidList}
             handleAddPaidEntryClick={this.handleAddPaidEntryClick}
             handleDelete={this.handleDelete}
-            totalAmount={this.state.totalAmount}
           />
         ) : null}
+        <hr />
+        <TallyResults
+          paidList={this.state.paidList}
+          paxList={this.state.paxList}
+        />
       </div>
     );
   }
