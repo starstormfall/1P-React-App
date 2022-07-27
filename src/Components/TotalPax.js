@@ -1,5 +1,17 @@
 import React from "react";
-import { Box, TextField, Button } from "@mui/material";
+import {
+  Typography,
+  Box,
+  Stack,
+  TextField,
+  Button,
+  Divider,
+} from "@mui/material";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
+import IconButton from "@mui/material/IconButton";
+import BorderColorIcon from "@mui/icons-material/BorderColor";
+import EditOffIcon from "@mui/icons-material/EditOff";
 
 export default class TotalPax extends React.Component {
   constructor(props) {
@@ -24,52 +36,69 @@ export default class TotalPax extends React.Component {
   render() {
     return (
       <div>
-        <h3>Enter Who Needs To Pay:</h3>
-
-        <TextField
-          name="paxInput"
-          label="Name"
-          variant="filled"
-          value={this.props.paxInput}
-          onChange={this.props.handleChange}
-          required={true}
-        />
-        <Button
-          variant="outlined"
-          size="small"
-          onClick={this.props.handleAddPaxClick}
-        >
-          Add Person
-        </Button>
-
+        <Typography variant="h4">Who's Splitting $?</Typography>
+        <br />
+        <Stack direction="row" spacing={2} justifyContent="center" m={2}>
+          <TextField
+            name="paxInput"
+            label="Name"
+            variant="outlined"
+            value={this.props.paxInput}
+            onChange={this.props.handleChange}
+            required={true}
+            fullWidth={true}
+          />
+          <Button
+            variant="contained"
+            size="small"
+            onClick={this.props.handleAddPaxClick}
+          >
+            <PersonAddIcon />
+          </Button>
+        </Stack>
+        <br />
         {this.props.paxList && this.props.paxList.length > 0 ? (
           <div>
-            <h3>List of Names Who Are Paying:</h3>
+            <Divider>
+              <Typography variant="h6">
+                Total Contributors: {this.props.paxList.length}
+                <IconButton onClick={this.handleEdit}>
+                  {this.state.editMode ? <EditOffIcon /> : <BorderColorIcon />}
+                </IconButton>
+              </Typography>
+            </Divider>
             {this.props.paxList.map((pax, index) => (
               <div key={index}>
-                <TextField
-                  name="editPax"
-                  size="small"
-                  label="Name"
-                  variant="filled"
-                  value={this.props.paxList[index]}
-                  disabled={this.state.editMode ? false : true}
-                  onChange={(event) =>
-                    this.props.handleEditPaxChange(index, event)
-                  }
-                />
-                <button
-                  name="delete-pax"
-                  onClick={(event) => this.props.handleDelete(event, index)}
+                <Stack
+                  m={2}
+                  direction="row"
+                  spacing={2}
+                  justifyContent="center"
                 >
-                  Delete
-                </button>
+                  <TextField
+                    autoFocus
+                    name="editPax"
+                    size="small"
+                    label="Name"
+                    variant="filled"
+                    fullWidth={true}
+                    value={this.props.paxList[index]}
+                    disabled={this.state.editMode ? false : true}
+                    onChange={(event) =>
+                      this.props.handleEditPaxChange(index, event)
+                    }
+                  />
+                  <Button
+                    variant="contained"
+                    size="small"
+                    name="delete-pax"
+                    onClick={(event) => this.props.handleDelete(index, event)}
+                  >
+                    <PersonRemoveIcon />
+                  </Button>
+                </Stack>
               </div>
             ))}
-            <button onClick={this.handleEdit}>
-              {this.state.editMode ? "Save" : "Edit"}
-            </button>
-            <p>Total Pax Paying: {this.props.paxList.length}</p>
           </div>
         ) : null}
       </div>

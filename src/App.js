@@ -2,29 +2,35 @@ import React from "react";
 import "./App.css";
 import ButtonAppBar from "./Components/Design/ButtonAppBar.js";
 import { ThemeProvider } from "@mui/material/styles";
-import { Typography } from "@mui/material";
-import { Grid } from "@mui/material";
+import { Typography, Container } from "@mui/material";
 import myTheme from "./Components/Design/Theme.js";
-import { ToggleMode } from "./Components/Design/ToggleMode.js";
-import { SplitIndividual } from "./Components/SplitIndividual.js";
+import { SplitExactly } from "./Components/SplitExactly.js";
 import { SplitEqually } from "./Components/SplitEqually.js";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import BalanceIcon from "@mui/icons-material/Balance";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      splitMode: "even",
+      tabValue: "equally",
     };
   }
 
-  handleToggleChange = () => {
-    if (this.state.splitMode === "even") {
+  componentDidMount() {
+    document.title = "Get Back $";
+  }
+
+  handleTabChange = (event) => {
+    if (this.state.tabValue === "equally") {
       this.setState({
-        splitMode: "individual",
+        tabValue: "exactly",
       });
-    } else if (this.state.splitMode === "individual") {
+    } else if (this.state.tabValue === "exactly") {
       this.setState({
-        splitMode: "even",
+        tabValue: "equally",
       });
     }
   };
@@ -33,12 +39,41 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={myTheme}>
         <Typography component={"span"} variant={"body2"}>
-          <ButtonAppBar />
-          <header className="App-header">
-            <div className="App">
-              <SplitEqually />
-            </div>
-          </header>
+          <Container>
+            <ButtonAppBar />
+
+            <header className="App-header">
+              <Tabs
+                value={this.state.tabValue}
+                onChange={this.handleTabChange}
+                textColor="primary"
+                indicatorColor="secondary"
+                aria-label="secondary tabs example"
+              >
+                <Tab
+                  value="equally"
+                  icon={<BalanceIcon />}
+                  iconPosition="bottom"
+                  label="Split Equally  "
+                />
+
+                <Tab
+                  value="exactly"
+                  icon={<EqualizerIcon />}
+                  iconPosition="bottom"
+                  label="Split Exactly"
+                />
+              </Tabs>
+              <br />
+              <div className="App">
+                {this.state.tabValue === "equally" ? (
+                  <SplitEqually />
+                ) : (
+                  <SplitExactly />
+                )}
+              </div>
+            </header>
+          </Container>
         </Typography>
       </ThemeProvider>
     );

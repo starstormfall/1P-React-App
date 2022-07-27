@@ -2,6 +2,10 @@ import React from "react";
 import TotalPax from "./TotalPax";
 import TotalAmt from "./TotalAmt";
 import { TallyResults } from "./TallyResults";
+import Alert from "@mui/material/Alert";
+import Divider from "@mui/material/Divider";
+
+import Stack from "@mui/material/Stack";
 
 export class SplitEqually extends React.Component {
   constructor(props) {
@@ -13,6 +17,8 @@ export class SplitEqually extends React.Component {
       payer: "",
       paidItem: "",
       paidAmount: "",
+      noInputError: false,
+      nameExistsError: false,
     };
   }
 
@@ -26,21 +32,32 @@ export class SplitEqually extends React.Component {
         paxList: newPaxList,
         paxInput: "",
         payer: this.state.paxInput,
+        noInputError: false,
+        nameExistsError: false,
+        wrongAmountError: false,
       });
     } else if (this.state.paxList.includes(this.state.paxInput)) {
-      alert("Name already added. Please add another name");
       this.setState({
         paxInput: "",
+        nameExistsError: true,
       });
     } else {
-      alert("Please enter a name!");
+      this.setState({
+        noInputError: true,
+      });
     }
   };
 
   handleAddPaidEntryClick = (index, event) => {
-    if (this.state.paidItem === "" || this.state.paidAmount === "") {
-      alert("Enter payment details");
+    if (this.state.paidAmount === "" || this.state.paidAmount < 0) {
+      this.setState({
+        wrongAmountError: true,
+      });
     } else {
+      if (this.state.paidItem === "") {
+        this.state.paidItem = "not stated";
+      }
+
       let paidEntry = {
         payer: this.state.payer,
         paidItem: this.state.paidItem,
@@ -51,6 +68,7 @@ export class SplitEqually extends React.Component {
         paidList: [...this.state.paidList, paidEntry],
         paidItem: "",
         paidAmount: "",
+        wrongAmountError: false,
       });
     }
   };
@@ -72,14 +90,15 @@ export class SplitEqually extends React.Component {
     });
   };
 
-  handleDelete = (event, index) => {
+  handleDelete = (index, event) => {
+    console.log(event.target.name, event.target.id, "button pressed");
     if (event.target.name === "delete-pax") {
       this.state.paxList.splice(index, 1);
 
       this.setState({
         paxList: this.state.paxList,
       });
-    } else if (event.target.name === "delete-paid") {
+    } else if (event.target.id === "delete-paid") {
       this.state.paidList.splice(index, 1);
 
       this.setState({
@@ -91,16 +110,38 @@ export class SplitEqually extends React.Component {
   render() {
     return (
       <div>
-        <TotalPax
-          paxList={this.state.paxList}
-          paxInput={this.state.paxInput}
-          handleChange={this.handleChange}
-          handleAddPaxClick={this.handleAddPaxClick}
-          handleEditPaxChange={this.handleEditPaxChange}
-          handleDelete={this.handleDelete}
-        />
-        <hr />
-        {this.state.paxList && this.state.paxList.length > 0 ? (
+        {this.state.noInputError ? (
+          <Alert severity="error">
+            No name submitted. Please fill in the required field!{" "}
+          </Alert>
+        ) : null}
+
+        {this.state.nameExistsError ? (
+          <Alert severity="error">
+            Name already exists. Please add another name!
+          </Alert>
+        ) : null}
+
+        {this.state.wrongAmountError ? (
+          <Alert severity="error">
+            Invalid amount. Please enter a positive amount paid!
+          </Alert>
+        ) : null}
+
+        <br />
+        <Stack
+          direction={{ xs: "column", sm: "row" }}
+          spacing={{ xs: 1, sm: 2, md: 4 }}
+          divider={<Divider orientation="vertical" flexItem />}
+        >
+          <TotalPax
+            paxList={this.state.paxList}
+            paxInput={this.state.paxInput}
+            handleChange={this.handleChange}
+            handleAddPaxClick={this.handleAddPaxClick}
+            handleEditPaxChange={this.handleEditPaxChange}
+            handleDelete={this.handleDelete}
+          />
           <TotalAmt
             paxList={this.state.paxList}
             payer={this.state.payer}
@@ -111,12 +152,15 @@ export class SplitEqually extends React.Component {
             handleAddPaidEntryClick={this.handleAddPaidEntryClick}
             handleDelete={this.handleDelete}
           />
-        ) : null}
-        <hr />
-        <TallyResults
-          paidList={this.state.paidList}
-          paxList={this.state.paxList}
-        />
+          {this.state.paidList &&
+          this.state.paidList.length > 0 &&
+          this.state.paxList.length > 1 ? (
+            <TallyResults
+              paidList={this.state.paidList}
+              paxList={this.state.paxList}
+            />
+          ) : null}
+        </Stack>
       </div>
     );
   }

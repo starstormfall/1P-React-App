@@ -1,4 +1,6 @@
 import React from "react";
+import { Card, CardContent, Typography, Button, Divider } from "@mui/material";
+import SendIcon from "@mui/icons-material/Send";
 
 export class TallyResults extends React.Component {
   calcSplitAmount = () => {
@@ -27,36 +29,61 @@ export class TallyResults extends React.Component {
 
     return (
       <div>
-        <p>Each pax should pay: ${splitAmount}</p>
-        <h3>Who Should Get Back $?</h3>
-        {Object.entries(finalTally)
-          .filter(([key, value]) => {
-            return value > 0;
-          })
-          .map(([key, value], index) => (
-            <div key={index}>
-              <p>
-                {key} should get back ${Math.abs(value)}
-              </p>
-            </div>
-          ))}
-
-        <h3>Who Should Pay Back $?</h3>
-
-        {Object.entries(finalTally)
-          .filter(([key, value]) => {
-            return value < 0;
-          })
-          .map(([key, value], index) => (
-            <div key={index}>
-              <p>
-                {key} needs to pay ${Math.abs(value)}
-              </p>
-            </div>
-          ))}
-
-        <p>{JSON.stringify(paidTally)}</p>
-        <p>{JSON.stringify(finalTally)}</p>
+        <Typography variant="h4">How Do We Split?</Typography>
+        <Card>
+          <CardContent>
+            <Typography
+              sx={{ fontSize: 14 }}
+              color="text.secondary"
+              gutterBottom
+            >
+              Each Person Pays
+            </Typography>
+            <Typography variant="h5" component="div">
+              ${splitAmount}
+            </Typography>
+          </CardContent>
+        </Card>
+        <br />
+        <Divider>
+          <Typography variant="h6">Who Should Get Back $</Typography>
+        </Divider>
+        <Card>
+          <CardContent>
+            {Object.entries(finalTally)
+              .filter(([key, value]) => {
+                return value > 0;
+              })
+              .map(([key, value], index) => (
+                <Typography key={index}>
+                  {key} | ${Math.abs(value).toFixed(2)}
+                </Typography>
+              ))}
+          </CardContent>
+        </Card>
+        <br />
+        <Divider>
+          <Typography variant="h6">Who Needs To Pay Back $</Typography>
+        </Divider>
+        <Card>
+          <CardContent>
+            {Object.entries(finalTally)
+              .filter(([key, value]) => {
+                return value < 0;
+              })
+              .map(([key, value], index) => (
+                <Typography key={index}>
+                  {key} | ${Math.abs(value).toFixed(2)}
+                </Typography>
+              ))}
+          </CardContent>
+        </Card>
+        <br />
+        {/* <p>{JSON.stringify(paidTally)}</p>
+        <p>{JSON.stringify(finalTally)}</p> */}
+        <Button variant="contained">
+          <SendIcon /> | Share Results
+        </Button>
       </div>
     );
   }
