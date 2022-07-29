@@ -2,7 +2,7 @@ import React from "react";
 import "./App.css";
 import ButtonAppBar from "./Components/Design/ButtonAppBar.js";
 import { ThemeProvider } from "@mui/material/styles";
-import { Typography, Container } from "@mui/material";
+import { Typography, Container, Stack } from "@mui/material";
 import myTheme from "./Components/Design/Theme.js";
 import { SplitExactly } from "./Components/SplitExactly.js";
 import { SplitEqually } from "./Components/SplitEqually.js";
@@ -15,7 +15,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabValue: "equally",
+      tabValue: "exactly",
     };
   }
 
@@ -39,10 +39,17 @@ class App extends React.Component {
     return (
       <ThemeProvider theme={myTheme}>
         <Typography component={"span"} variant={"body2"}>
-          <Container>
+          <header className="App-header">
             <ButtonAppBar />
-
-            <header className="App-header">
+          </header>
+          <br />
+          <div className="App">
+            <Stack
+              justifyContent="center"
+              alignItems="center"
+              marginBottom={10}
+              marginTop={10}
+            >
               <Tabs
                 value={this.state.tabValue}
                 onChange={this.handleTabChange}
@@ -64,16 +71,15 @@ class App extends React.Component {
                   label="Split Exactly"
                 />
               </Tabs>
-              <br />
-              <div className="App">
-                {this.state.tabValue === "equally" ? (
-                  <SplitEqually />
-                ) : (
-                  <SplitExactly />
-                )}
-              </div>
-            </header>
-          </Container>
+            </Stack>
+            <Stack justifyContent="center" alignItems="center">
+              {this.state.tabValue === "equally" ? (
+                <SplitEqually />
+              ) : (
+                <SplitExactly />
+              )}
+            </Stack>
+          </div>
         </Typography>
       </ThemeProvider>
     );

@@ -36,7 +36,7 @@ export default class TotalPax extends React.Component {
   render() {
     return (
       <div>
-        <Typography variant="h4">Who's Splitting $?</Typography>
+        <Typography variant="h4">Who Will Split $?</Typography>
         <br />
         <Stack direction="row" spacing={2} justifyContent="center" m={2}>
           <TextField
@@ -46,7 +46,8 @@ export default class TotalPax extends React.Component {
             value={this.props.paxInput}
             onChange={this.props.handleChange}
             required={true}
-            fullWidth={true}
+            color="secondary"
+            inputProps={{ maxLength: 24 }}
           />
           <Button
             variant="contained"
@@ -62,7 +63,7 @@ export default class TotalPax extends React.Component {
             <Divider>
               <Typography variant="h6">
                 Total Contributors: {this.props.paxList.length}
-                <IconButton onClick={this.handleEdit}>
+                <IconButton color="primary" onClick={this.handleEdit}>
                   {this.state.editMode ? <EditOffIcon /> : <BorderColorIcon />}
                 </IconButton>
               </Typography>
@@ -81,9 +82,9 @@ export default class TotalPax extends React.Component {
                     size="small"
                     label="Name"
                     variant="filled"
-                    fullWidth={true}
-                    value={this.props.paxList[index]}
+                    value={pax}
                     disabled={this.state.editMode ? false : true}
+                    inputProps={{ maxLength: 24 }}
                     onChange={(event) =>
                       this.props.handleEditPaxChange(index, event)
                     }
@@ -91,8 +92,9 @@ export default class TotalPax extends React.Component {
                   <Button
                     variant="contained"
                     size="small"
-                    name="delete-pax"
-                    onClick={(event) => this.props.handleDelete(index, event)}
+                    onClick={(event) =>
+                      this.props.handleDelete(index, "deletePax", event)
+                    }
                   >
                     <PersonRemoveIcon />
                   </Button>

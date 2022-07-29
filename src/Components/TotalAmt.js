@@ -130,10 +130,10 @@ export default class TotalAmt extends React.Component {
 
                 <Button
                   variant="contained"
-                  name="delete-paid"
-                  id="delete-paid"
                   size="small"
-                  onClick={(event) => this.props.handleDelete(index, event)}
+                  onClick={(event) =>
+                    this.props.handleDelete(index, "deletePaid", event)
+                  }
                 >
                   <DeleteForeverIcon />
                 </Button>

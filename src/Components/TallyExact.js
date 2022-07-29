@@ -2,49 +2,35 @@ import React from "react";
 import { Card, CardContent, Typography, Button, Divider } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
-export class TallyResults extends React.Component {
-  calcSplitAmount = () => {
-    let totalPaid = this.props.paidList.reduce(
-      (prev, curr) => prev + Number(curr.paidAmount),
-      0
-    );
-    return totalPaid / this.props.paxList.length;
-  };
-
+export class TallyExact extends React.Component {
   render() {
     const paidTally = {};
+    const spentTally = {};
     const finalTally = {};
-    const splitAmount = this.calcSplitAmount().toFixed(2);
+
     for (const pax of this.props.paxList) {
       paidTally[pax] = 0;
+    }
+
+    for (const pax of this.props.paxList) {
+      spentTally[pax] = 0;
     }
 
     this.props.paidList.forEach((paidEntry) => {
       paidTally[paidEntry.payer] += Number(paidEntry.paidAmount);
     });
 
+    this.props.paidList.forEach((paidEntry) => {
+      spentTally[paidEntry.spender] += Number(paidEntry.paidAmount);
+    });
+
     Object.entries(paidTally).forEach(([key, value]) => {
-      finalTally[key] = value - splitAmount;
+      finalTally[key] = value - spentTally[key];
     });
 
     return (
       <div>
         <Typography variant="h4">How Do We Split?</Typography>
-        <Card>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              Each Person Pays
-            </Typography>
-            <Typography variant="h5" component="div">
-              ${splitAmount}
-            </Typography>
-          </CardContent>
-        </Card>
-        <br />
         <Divider>
           <Typography variant="h6">Who Should Get Back $</Typography>
         </Divider>
@@ -78,12 +64,6 @@ export class TallyResults extends React.Component {
               ))}
           </CardContent>
         </Card>
-        <br />
-        {/* <p>{JSON.stringify(paidTally)}</p>
-        <p>{JSON.stringify(finalTally)}</p> */}
-        <Button variant="contained" endIcon={<SendIcon />}>
-          Share Results
-        </Button>
       </div>
     );
   }

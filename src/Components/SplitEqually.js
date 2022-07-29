@@ -4,7 +4,7 @@ import TotalAmt from "./TotalAmt";
 import { TallyResults } from "./TallyResults";
 import Alert from "@mui/material/Alert";
 import Divider from "@mui/material/Divider";
-
+import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
 export class SplitEqually extends React.Component {
@@ -90,15 +90,14 @@ export class SplitEqually extends React.Component {
     });
   };
 
-  handleDelete = (index, event) => {
-    console.log(event.target.name, event.target.id, "button pressed");
-    if (event.target.name === "delete-pax") {
+  handleDelete = (index, type, event) => {
+    if (type === "deletePax") {
       this.state.paxList.splice(index, 1);
 
       this.setState({
         paxList: this.state.paxList,
       });
-    } else if (event.target.id === "delete-paid") {
+    } else if (type === "deletePaid") {
       this.state.paidList.splice(index, 1);
 
       this.setState({
@@ -134,31 +133,39 @@ export class SplitEqually extends React.Component {
           spacing={{ xs: 1, sm: 2, md: 4 }}
           divider={<Divider orientation="vertical" flexItem />}
         >
-          <TotalPax
-            paxList={this.state.paxList}
-            paxInput={this.state.paxInput}
-            handleChange={this.handleChange}
-            handleAddPaxClick={this.handleAddPaxClick}
-            handleEditPaxChange={this.handleEditPaxChange}
-            handleDelete={this.handleDelete}
-          />
-          <TotalAmt
-            paxList={this.state.paxList}
-            payer={this.state.payer}
-            paidItem={this.state.paidItem}
-            paidAmount={this.state.paidAmount}
-            handleChange={this.handleChange}
-            paidList={this.state.paidList}
-            handleAddPaidEntryClick={this.handleAddPaidEntryClick}
-            handleDelete={this.handleDelete}
-          />
+          <Box sx={{}}>
+            <TotalPax
+              paxList={this.state.paxList}
+              paxInput={this.state.paxInput}
+              handleChange={this.handleChange}
+              handleAddPaxClick={this.handleAddPaxClick}
+              handleEditPaxChange={this.handleEditPaxChange}
+              handleDelete={this.handleDelete}
+            />
+          </Box>
+          {this.state.paxList.length > 1 ? (
+            <Box sx={{}}>
+              <TotalAmt
+                paxList={this.state.paxList}
+                payer={this.state.payer}
+                paidItem={this.state.paidItem}
+                paidAmount={this.state.paidAmount}
+                handleChange={this.handleChange}
+                paidList={this.state.paidList}
+                handleAddPaidEntryClick={this.handleAddPaidEntryClick}
+                handleDelete={this.handleDelete}
+              />
+            </Box>
+          ) : null}
           {this.state.paidList &&
           this.state.paidList.length > 0 &&
           this.state.paxList.length > 1 ? (
-            <TallyResults
-              paidList={this.state.paidList}
-              paxList={this.state.paxList}
-            />
+            <Box sx={{}}>
+              <TallyResults
+                paidList={this.state.paidList}
+                paxList={this.state.paxList}
+              />
+            </Box>
           ) : null}
         </Stack>
       </div>
