@@ -140,8 +140,9 @@ export class SplitExactly extends React.Component {
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
           divider={<Divider orientation="vertical" flexItem />}
+          marginTop={5}
+          justifyContent="center"
         >
-          <br />
           <TotalPax
             paxList={this.state.paxList}
             paxInput={this.state.paxInput}
@@ -150,24 +151,28 @@ export class SplitExactly extends React.Component {
             handleEditPaxChange={this.handleEditPaxChange}
             handleDelete={this.handleDelete}
           />
-          <br />
-          <ExactSpent
-            paxList={this.state.paxList}
-            payer={this.state.payer}
-            spender={this.state.spender}
-            handleChange={this.handleChange}
-            paidAmount={this.state.paidAmount}
-            paidItem={this.state.paidItem}
-            paidList={this.state.paidList}
-            handleAddPaidEntryClick={this.handleAddPaidEntryClick}
-            handleDelete={this.handleDelete}
-            setPaidAmountFromChild={this.setPaidAmountFromChild}
-          />
-          <br />
-          <TallyExact
-            paidList={this.state.paidList}
-            paxList={this.state.paxList}
-          />
+          {this.state.paxList.length > 1 ? (
+            <ExactSpent
+              paxList={this.state.paxList}
+              payer={this.state.payer}
+              spender={this.state.spender}
+              handleChange={this.handleChange}
+              paidAmount={this.state.paidAmount}
+              paidItem={this.state.paidItem}
+              paidList={this.state.paidList}
+              handleAddPaidEntryClick={this.handleAddPaidEntryClick}
+              handleDelete={this.handleDelete}
+              setPaidAmountFromChild={this.setPaidAmountFromChild}
+            />
+          ) : null}
+          {this.state.paidList &&
+          this.state.paidList.length > 0 &&
+          this.state.paxList.length > 1 ? (
+            <TallyExact
+              paidList={this.state.paidList}
+              paxList={this.state.paxList}
+            />
+          ) : null}
         </Stack>
       </div>
     );

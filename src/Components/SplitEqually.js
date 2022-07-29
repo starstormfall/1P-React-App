@@ -127,22 +127,22 @@ export class SplitEqually extends React.Component {
           </Alert>
         ) : null}
 
-        <br />
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}
           divider={<Divider orientation="vertical" flexItem />}
+          marginTop={5}
+          justifyContent="center"
         >
-          <Box sx={{}}>
-            <TotalPax
-              paxList={this.state.paxList}
-              paxInput={this.state.paxInput}
-              handleChange={this.handleChange}
-              handleAddPaxClick={this.handleAddPaxClick}
-              handleEditPaxChange={this.handleEditPaxChange}
-              handleDelete={this.handleDelete}
-            />
-          </Box>
+          <TotalPax
+            paxList={this.state.paxList}
+            paxInput={this.state.paxInput}
+            handleChange={this.handleChange}
+            handleAddPaxClick={this.handleAddPaxClick}
+            handleEditPaxChange={this.handleEditPaxChange}
+            handleDelete={this.handleDelete}
+          />
+
           {this.state.paxList.length > 1 ? (
             <Box sx={{}}>
               <TotalAmt

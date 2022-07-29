@@ -47,8 +47,8 @@ class App extends React.Component {
             <Stack
               justifyContent="center"
               alignItems="center"
-              marginBottom={10}
               marginTop={10}
+              marginBottom={5}
             >
               <Tabs
                 value={this.state.tabValue}

@@ -214,84 +214,88 @@ export class ExactSpent extends React.Component {
             <AddIcon />
           </Button>
         </Stack>
-        <Divider>
-          <Typography variant="h6">Total Expenses: ${}</Typography>
-        </Divider>
-        {this.props.paidList.map((paidEntry, index) => (
-          <Stack
-            key={index}
-            direction="row"
-            spacing={2}
-            m={2}
-            justifyContent="center"
-          >
-            <TextField
-              name="spender"
-              label="Spender"
-              variant="filled"
-              size="small"
-              value={paidEntry.spender}
-              disabled={true}
-            />
-            <TextField
-              name="finalCost"
-              label="Final Cost($)"
-              variant="filled"
-              type="number"
-              size="small"
-              value={paidEntry.paidAmount}
-              disabled={true}
-            />
-            <TextField
-              name="paidItem"
-              label="Item Name"
-              variant="filled"
-              size="small"
-              value={paidEntry.paidItem}
-              disabled={true}
-            />
-            <TextField
-              name="payer"
-              label="Payer"
-              variant="filled"
-              size="small"
-              value={paidEntry.payer}
-              disabled={true}
-            />
+        {this.props.paidList && this.props.paidList.length > 0 ? (
+          <div>
+            <Divider>
+              <Typography variant="h6">Total Expenses: ${}</Typography>
+            </Divider>
+            {this.props.paidList.map((paidEntry, index) => (
+              <Stack
+                key={index}
+                direction="row"
+                spacing={2}
+                m={2}
+                justifyContent="center"
+              >
+                <TextField
+                  name="spender"
+                  label="Spender"
+                  variant="filled"
+                  size="small"
+                  value={paidEntry.spender}
+                  disabled={true}
+                />
+                <TextField
+                  name="finalCost"
+                  label="Final Cost($)"
+                  variant="filled"
+                  type="number"
+                  size="small"
+                  value={paidEntry.paidAmount}
+                  disabled={true}
+                />
+                <TextField
+                  name="paidItem"
+                  label="Item Name"
+                  variant="filled"
+                  size="small"
+                  value={paidEntry.paidItem}
+                  disabled={true}
+                />
+                <TextField
+                  name="payer"
+                  label="Payer"
+                  variant="filled"
+                  size="small"
+                  value={paidEntry.payer}
+                  disabled={true}
+                />
 
-            <Button
-              variant="contained"
-              size="small"
-              onClick={(event) =>
-                this.props.handleDelete(index, "deletePaid", event)
-              }
-            >
-              <DeleteForeverIcon />
-            </Button>
-          </Stack>
-        ))}
-
-        <br />
-        <Divider>
-          <Typography variant="h6">Current Tally</Typography>
-        </Divider>
-        <Card>
-          <CardContent>
-            <Typography
-              sx={{ fontSize: 14 }}
-              color="text.secondary"
-              gutterBottom
-            >
-              Who Has Paid How Much
-            </Typography>
-
-            {Object.entries(currentTally).map(([key, value], index) => (
-              <Typography key={index} variant="h5" component="div">
-                {key} | ${Math.abs(value).toFixed(2)}
-              </Typography>
+                <Button
+                  variant="contained"
+                  size="small"
+                  onClick={(event) =>
+                    this.props.handleDelete(index, "deletePaid", event)
+                  }
+                >
+                  <DeleteForeverIcon />
+                </Button>
+              </Stack>
             ))}
-          </CardContent>
-        </Card>
+
+            <br />
+            <Divider>
+              <Typography variant="h6">Current Tally</Typography>
+            </Divider>
+            <Card>
+              <CardContent>
+                <Typography
+                  sx={{ fontSize: 14 }}
+                  color="text.secondary"
+                  gutterBottom
+                >
+                  Who Has Paid How Much
+                </Typography>
+
+                {Object.entries(currentTally).map(([key, value], index) => (
+                  <Typography key={index} variant="h5" component="div">
+                    {key} | ${Math.abs(value).toFixed(2)}
+                  </Typography>
+                ))}
+              </CardContent>
+            </Card>
+          </div>
+        ) : null}
       </div>
     );
   }
