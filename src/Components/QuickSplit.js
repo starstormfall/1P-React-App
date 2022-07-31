@@ -22,14 +22,14 @@ export class QuickSplit extends React.Component {
 
   handleAddClick = () => {
     this.setState({
-      paxNum: this.state.paxNum + 1,
+      paxNum: Number(this.state.paxNum + 1),
     });
   };
 
   handleSubtractClick = () => {
     if (this.state.paxNum > 1) {
       this.setState({
-        paxNum: this.state.paxNum - 1,
+        paxNum: Number(this.state.paxNum - 1),
       });
     }
   };

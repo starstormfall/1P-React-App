@@ -3,7 +3,6 @@ import "./App.css";
 import ButtonAppBar from "./Components/Design/ButtonAppBar.js";
 import { ThemeProvider } from "@mui/material/styles";
 import { Typography, Stack } from "@mui/material";
-import Drawer from "@mui/material/Drawer";
 import myTheme from "./Components/Design/Theme.js";
 import { SplitExactly } from "./Components/SplitExactly.js";
 import { SplitEqually } from "./Components/SplitEqually.js";
@@ -18,7 +17,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tabValue: "quick",
+      tabValue: "equally",
       top: false,
     };
   }
@@ -43,36 +42,12 @@ class App extends React.Component {
     }
   };
 
-  handleAboutClick = () => {};
-
-  toggleDrawer = (anchor, open) => (event) => {
-    if (
-      event.type === "keydown" &&
-      (event.key === "Tab" || event.key === "Shift")
-    ) {
-      return;
-    }
-
-    this.setState({
-      top: open,
-    });
-  };
-
   render() {
     return (
       <ThemeProvider theme={myTheme}>
         <Typography component={"span"} variant={"body2"}>
           <header className="App-header">
-            <ButtonAppBar handleAboutClick={this.handleAboutClick} />
-            <React.Fragment key={this.state.top}>
-              <Drawer
-                anchor={this.state.top}
-                open={this.state.top}
-                onClose={this.toggleDrawer(this.state.top, false)}
-              >
-                testing
-              </Drawer>
-            </React.Fragment>
+            <ButtonAppBar />
           </header>
           <br />
           <div className="App">
