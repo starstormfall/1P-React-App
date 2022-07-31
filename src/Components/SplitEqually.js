@@ -126,6 +126,9 @@ export class SplitEqually extends React.Component {
             Invalid amount. Please enter a positive amount paid!
           </Alert>
         ) : null}
+        <Alert severity="info">
+          Split all expenses equally among everyone!
+        </Alert>
 
         <Stack
           direction={{ xs: "column", sm: "row" }}

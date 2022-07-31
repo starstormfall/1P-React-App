@@ -8,10 +8,11 @@
     "@emotion/styled": "^11.9.3",
     "@fontsource/arvo": "^4.5.5",
     "@fontsource/lato": "^4.5.8",
+    "@material-ui/lab": "^4.0.0-alpha.61",
     "@mui/icons-material": "^5.8.4",
-    "@mui/material": "^5.9.1",
+    "@mui/material": "^5.9.2",
     "gh-pages": "^4.0.0",
-    "react": "^18.1.0",
+    "react": "^18.2.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1"
   },

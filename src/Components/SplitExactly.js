@@ -136,6 +136,11 @@ export class SplitExactly extends React.Component {
             Invalid amount. Please enter a positive amount paid!
           </Alert>
         ) : null}
+
+        <Alert severity="info">
+          WIP - Split expenses based on each individual's spending!
+        </Alert>
+
         <Stack
           direction={{ xs: "column", sm: "row" }}
           spacing={{ xs: 1, sm: 2, md: 4 }}

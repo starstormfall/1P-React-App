@@ -5,51 +5,31 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
-import Drawer from "@mui/material/Drawer";
 
-export default function ButtonAppBar() {
-  const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
-    right: false,
-  });
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
-  // const toggleDrawer = (anchor, open) => (event) => {
-  //   if (
-  //     event.type === "keydown" &&
-  //     (event.key === "Tab" || event.key === "Shift")
-  //   ) {
-  //     return;
-  //   }
-
-  //   setState({ ...state, [anchor]: open });
-  // };
-
+export default function ButtonAppBar(props) {
   return (
     <AppBar position="fixed">
       <Toolbar>
-        {/* <React.Fragment key={"left"}> */}
         <IconButton
           size="large"
           edge="start"
           color="inherit"
           aria-label="menu"
           sx={{ mr: 2 }}
-          // onClick={toggleDrawer("left", true)}
         >
           <MenuIcon />
-        </IconButton>{" "}
-        {/* <Drawer
-            anchor="left"
-            open={state["left"]}
-            onClose={toggleDrawer("left", false)}
-          ></Drawer> */}
-        {/* </React.Fragment> */}
+        </IconButton>
         <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           GET BACK $
         </Typography>
-        <Button color="inherit">Login</Button>
+        <Button onClick={props.handleAboutClick} color="inherit">
+          About
+        </Button>
+        <Button endIcon={<AccountCircleIcon />} color="inherit">
+          login
+        </Button>
       </Toolbar>
     </AppBar>
   );
